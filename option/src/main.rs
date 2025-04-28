@@ -26,4 +26,15 @@ fn main() {
     // filter
     assert_eq!(Some(5).filter(|&n| n < 0), None);
     assert_eq!(None::<i32>.filter(|&n| n < 0), None);
+
+    // plus_one
+    assert_eq!(plus_one(Some(5)), Some(6));
+    assert_eq!(plus_one(None), None);
+}
+
+fn plus_one(option: Option<i32>) -> Option<i32> {
+    match option {
+        Some(value) => Some(value + 1),
+        None => None,
+    }
 }
