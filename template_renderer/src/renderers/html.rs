@@ -7,22 +7,22 @@ pub struct HtmlRenderer;
 impl Renderer for HtmlRenderer {
     fn render(&self, table: &Table) -> RenderedContent {
         let mut html = String::new();
-        html.push_str("<table>\n<thead>\n<tr>");
+        html.push_str("<html>\n<body>\n<div>\n<div>\n");
 
         for header in &table.headers {
-            html.push_str(&format!("<th>{}</th>", header));
+            html.push_str(&format!("<h1>{}</h1>\n", header));
         }
-        html.push_str("</tr>\n</thead>\n<tbody>\n");
+        html.push_str("</div>\n");
 
         for row in &table.rows {
-            html.push_str("<tr>");
+            html.push_str("<div>\n");
             for cell in row {
-                html.push_str(&format!("<td>{}</td>", cell));
+                html.push_str(&format!("<p>{}</p>\n", cell));
             }
-            html.push_str("</tr>\n");
+            html.push_str("</div>\n");
         }
 
-        html.push_str("</tbody>\n</table>");
+        html.push_str("</div>\n</body>\n</html>");
         RenderedContent::Text(html)
     }
     
