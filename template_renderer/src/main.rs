@@ -4,7 +4,7 @@ mod renderers;
 use crate::table::Table;
 use std::fs;
 use std::path::Path;
-use renderers::{Renderer, HtmlRenderer, CsvRenderer, PdfRenderer, RenderedContent};
+use renderers::{Renderer, HtmlRenderer, CsvRenderer, PdfRenderer};
 
 fn main() {
     let input_path = Path::new("input.json");
