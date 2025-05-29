@@ -1,3 +1,7 @@
+use crate::table::Table;
+use super::renderer::Renderer;
+use super::rendered_content::RenderedContent;
+
 pub struct PdfRenderer;
 
 impl Renderer for PdfRenderer {
