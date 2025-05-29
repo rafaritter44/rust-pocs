@@ -33,20 +33,13 @@ fn main() {
 
     for renderer in renderers.iter() {
         let rendered_content = renderer.render(&table);
+        let bytes = rendered_content.into_bytes();
+
         let output_filename = format!("output.{}", renderer.file_extension());
         let output_path = Path::new(&output_filename);
 
-        match rendered_content {
-            RenderedContent::Text(content) => {
-                if let Err(e) = fs::write(output_path, content) {
-                    eprintln!("Error writing to '{}': {}.", output_path.display(), e);
-                }
-            }
-            RenderedContent::Binary(content) => {
-                if let Err(e) = fs::write(output_path, content) {
-                    eprintln!("Error writing binary to '{}': {}.", output_path.display(), e);
-                }
-            }
+        if let Err(e) = fs::write(output_path, bytes) {
+            eprintln!("Error writing to '{}': {}.", output_path.display(), e);
         }
     }
 }
