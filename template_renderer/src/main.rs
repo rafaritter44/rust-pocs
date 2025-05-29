@@ -4,7 +4,7 @@ mod renderers;
 use crate::table::Table;
 use std::fs;
 use std::path::Path;
-use renderers::{Renderer, HtmlRenderer, CsvRenderer, RenderedContent};
+use renderers::{Renderer, HtmlRenderer, CsvRenderer, PdfRenderer, RenderedContent};
 
 fn main() {
     let input_path = Path::new("input.json");
@@ -28,6 +28,7 @@ fn main() {
     let renderers: Vec<Box<dyn Renderer>> = vec![
         Box::new(HtmlRenderer),
         Box::new(CsvRenderer),
+        Box::new(PdfRenderer),
     ];
 
     for renderer in renderers.iter() {
@@ -41,8 +42,10 @@ fn main() {
                     eprintln!("Error writing to '{}': {}.", output_path.display(), e);
                 }
             }
-            RenderedContent::Binary(_) => {
-                eprintln!("PDF rendering not supported yet.");
+            RenderedContent::Binary(content) => {
+                if let Err(e) = fs::write(output_path, content) {
+                    eprintln!("Error writing binary to '{}': {}.", output_path.display(), e);
+                }
             }
         }
     }
