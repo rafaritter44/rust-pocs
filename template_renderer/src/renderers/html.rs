@@ -25,4 +25,8 @@ impl Renderer for HtmlRenderer {
         html.push_str("</tbody>\n</table>");
         RenderedContent::Text(html)
     }
+    
+    fn file_extension(&self) -> &str {
+        "html"
+    }
 }

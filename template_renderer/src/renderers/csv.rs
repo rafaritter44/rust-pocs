@@ -18,4 +18,8 @@ impl Renderer for CsvRenderer {
 
         RenderedContent::Text(csv)
     }
+
+    fn file_extension(&self) -> &str {
+        "csv"
+    }
 }

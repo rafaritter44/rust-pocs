@@ -9,4 +9,8 @@ impl Renderer for PdfRenderer {
         let pdf_bytes = vec![/* PDF content as bytes */];
         RenderedContent::Binary(pdf_bytes)
     }
+
+    fn file_extension(&self) -> &str {
+        "pdf"
+    }
 }
