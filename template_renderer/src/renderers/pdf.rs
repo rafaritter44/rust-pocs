@@ -17,9 +17,7 @@ impl Renderer for PdfRenderer {
 
         let images = BTreeMap::new();
         let fonts = BTreeMap::new();
-        let options = GeneratePdfOptions {
-            ..Default::default()
-        };
+        let options = GeneratePdfOptions::default();
         let mut warnings = Vec::new();
 
         let pdf_bytes = PdfDocument::from_html(&html, &images, &fonts, &options, &mut warnings)
