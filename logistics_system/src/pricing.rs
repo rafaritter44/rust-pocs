@@ -7,13 +7,13 @@ pub fn load_config(path: &str) -> Result<PricingConfig, Box<dyn std::error::Erro
 }
 
 pub fn calculate_price(config: &PricingConfig, request: &ShipmentRequest, distance_km: f64) -> f64 {
-    let transport_config: &TransportPricing = match request.transport {
+    let transport_pricing: &TransportPricing = match request.transport {
         TransportType::Truck => &config.truck,
         TransportType::Boat => &config.boat,
         TransportType::Rail => &config.rail,
     };
 
-    transport_config.base_rate_per_km * distance_km
-        + transport_config.rate_per_kg * request.weight_kg
-        + transport_config.rate_per_m3 * request.volume_m3
+    transport_pricing.base_rate_per_km * distance_km
+        + transport_pricing.rate_per_kg * request.weight_kg
+        + transport_pricing.rate_per_m3 * request.volume_m3
 }
