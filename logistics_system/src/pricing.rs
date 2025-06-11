@@ -3,7 +3,8 @@ use std::fs;
 
 pub fn load_config(path: &str) -> Result<PricingConfig, Box<dyn std::error::Error>> {
     let content = fs::read_to_string(path)?;
-    toml::from_str(&content)
+    let config: PricingConfig = toml::from_str(&content)?;
+    Ok(config)
 }
 
 pub fn calculate_price(config: &PricingConfig, request: &ShipmentRequest, distance_km: f64) -> f64 {
