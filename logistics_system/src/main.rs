@@ -30,7 +30,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     for request in requests {
         let price = calculate_price(&config, &request, distance_km);
         println!(
-            "Transport: {:?}, Volume: {} m³, Weight: {} kg, Distance: {} km -> Price: ${:.2}",
+            "Transport: {:?}, Volume: {} m³, Weight: {} kg, Distance: {} km → Price: ${:.2}",
             request.transport, request.volume_m3, request.weight_kg, distance_km, price
         );
     }
