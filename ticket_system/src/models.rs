@@ -1,22 +1,22 @@
 use std::collections::{HashMap, HashSet};
-use chrono::{NaiveDate, NaiveDateTime};
+use chrono::NaiveDate;
 
 #[derive(Debug)]
-struct Venue {
+pub struct Venue {
     name: String,
     zones: HashMap<String, Zone>, // zone name -> Zone
     max_capacity: usize,
 }
 
 #[derive(Debug)]
-struct Zone {
+pub struct Zone {
     name: String,
     seat_count: usize,
     price: f32,
 }
 
 #[derive(Debug)]
-struct Show {
+pub struct Show {
     id: usize,
     title: String,
     date: NaiveDate,
@@ -25,7 +25,7 @@ struct Show {
 }
 
 #[derive(Debug)]
-struct Ticket {
+pub struct Ticket {
     show_id: usize,
     zone: String,
     seat_number: usize,
