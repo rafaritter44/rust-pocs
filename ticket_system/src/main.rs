@@ -1,3 +1,8 @@
+mod models;
+mod system;
+
+use crate::system::TicketSystem;
+
 fn main() {
-    println!("Hello, world!");
+    let system = TicketSystem::new();
 }
