@@ -31,11 +31,11 @@ impl TicketSystem {
         if let Some(show) = self.shows.get_mut(&show_id) {
             if let Some(zone_info) = show.venue.zones.get(&zone) {
                 if seat_number == 0 || seat_number > zone_info.seat_count {
-                    return Err("Invalid seat number".to_string());
+                    return Err("Invalid seat number".into());
                 }
                 let sold_seats = show.tickets_sold.entry(zone.clone()).or_insert_with(HashSet::new);
                 if sold_seats.contains(&seat_number) {
-                    return Err("Seat already sold".to_string());
+                    return Err("Seat already sold".into());
                 }
                 sold_seats.insert(seat_number);
                 Ok(Ticket {
@@ -45,10 +45,10 @@ impl TicketSystem {
                     buyer_name,
                 })
             } else {
-                Err("Zone not found".to_string())
+                Err("Zone not found".into())
             }
         } else {
-            Err("Show not found".to_string())
+            Err("Show not found".into())
         }
     }
     pub fn list_shows(&self) -> Vec<&Show> {
