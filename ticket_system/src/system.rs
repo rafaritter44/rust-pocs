@@ -51,4 +51,7 @@ impl TicketSystem {
             Err("Show not found".to_string())
         }
     }
+    pub fn list_shows(&self) -> Vec<&Show> {
+        self.shows.values().collect()
+    }
 }
