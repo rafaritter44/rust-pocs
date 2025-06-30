@@ -27,4 +27,28 @@ impl TicketSystem {
         self.next_show_id += 1;
         show_id
     }
+    pub fn buy_ticket(&mut self, show_id: usize, zone: String, seat_number: usize, buyer_name: String) -> Result<Ticket, String> {
+        if let Some(show) = self.shows.get_mut(&show_id) {
+            if let Some(zone_info) = show.venue.zones.get(&zone) {
+                if seat_number == 0 || seat_number > zone_info.seat_count {
+                    return Err("Invalid seat number".to_string());
+                }
+                let sold_seats = show.tickets_sold.entry(zone.clone()).or_insert_with(HashSet::new);
+                if sold_seats.contains(&seat_number) {
+                    return Err("Seat already sold".to_string());
+                }
+                sold_seats.insert(seat_number);
+                Ok(Ticket {
+                    show_id,
+                    zone,
+                    seat_number,
+                    buyer_name,
+                })
+            } else {
+                Err("Zone not found".to_string())
+            }
+        } else {
+            Err("Show not found".to_string())
+        }
+    }
 }
