@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 use chrono::NaiveDate;
-use crate::models::{Venue, Zone, Show, Ticket};
+use crate::models::{Venue, Show, Ticket};
 
 pub struct TicketSystem {
     shows: HashMap<usize, Show>,
