@@ -22,16 +22,19 @@ fn main() {
         venue
     );
 
-    let threads = vec![
-        ("VIP", 1, "Alice"),
-        ("General", 10, "Bob"),
-        ("General", 2, "Charlie"),
-    ]
-    .into_iter()
-    .map(|(zone, seat, buyer)| {
+    let buyers_count = 500;
+
+    let threads = (0..buyers_count)
+    .map(|i| {
         let system_clone = Arc::clone(&system);
+        let zone = if i % 5 == 0 { "VIP" } else { "General" };
+        let seat = (i % 50) + 1;
+        let buyer = format!("Buyer{}", i);
         thread::spawn(move || {
-            system_clone.lock().unwrap().buy_ticket(show_id, zone.into(), seat, buyer.into()).unwrap();
+            match system_clone.lock().unwrap().buy_ticket(show_id, zone.into(), seat, buyer.into()) {
+                Ok(_) => println!("Success"),
+                Err(_) => println!("Failure"),
+            }
         })
     })
     .collect::<Vec<_>>();
