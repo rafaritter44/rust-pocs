@@ -35,16 +35,17 @@ impl TicketSystem {
                     return Err("Invalid seat number".into());
                 }
                 let sold_seats = show.tickets_sold.entry(zone.clone()).or_insert_with(DashSet::new);
-                if sold_seats.contains(&seat_number) {
-                    return Err("Seat already sold".into());
-                }
-                sold_seats.insert(seat_number);
-                Ok(Ticket {
-                    show_id,
-                    zone,
-                    seat_number,
-                    buyer_name,
-                })
+                let reservation_succeeded = sold_seats.insert(seat_number);
+                return if reservation_succeeded {
+                    Ok(Ticket {
+                        show_id,
+                        zone,
+                        seat_number,
+                        buyer_name,
+                    })
+                } else {
+                    Err("Seat already sold".into())
+                };
             } else {
                 Err("Zone not found".into())
             }

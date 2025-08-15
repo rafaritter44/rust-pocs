@@ -32,8 +32,8 @@ fn main() {
         let buyer = format!("Buyer{}", i);
         thread::spawn(move || {
             match system_clone.buy_ticket(show_id, zone.into(), seat, buyer.clone()) {
-                Ok(_) => println!("Success: {} bought ticket for show {} in zone {} seat {}.", buyer, show_id, zone, seat),
-                Err(_) => println!("Failure: {} could not buy ticket for show {} in zone {} seat {}.", buyer, show_id, zone, seat),
+                Ok(_) => println!("Success: {} bought ticket for show {} in zone {} seat {}", buyer, show_id, zone, seat),
+                Err(_) => println!("Failure: {} could not buy ticket for show {} in zone {} seat {}", buyer, show_id, zone, seat),
             }
         })
     })
