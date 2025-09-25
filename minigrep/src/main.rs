@@ -1,6 +1,7 @@
 use std::env;
 use std::error::Error;
 use std::fs;
+use std::io::{self, Read};
 use std::process;
 
 use minigrep::{search, search_case_insensitive};
@@ -11,18 +12,20 @@ fn main() {
         process::exit(1);
     });
 
-    println!("Searching for {}", config.query);
-    println!("In file {}", config.file_path);
-
     if let Err(e) = run(config) {
         eprintln!("Application error: {e}");
         process::exit(1);
     }
 }
 
-
 fn run(config: Config) -> Result<(), Box<dyn Error>> {
-    let contents = fs::read_to_string(config.file_path)?;
+    let contents = if let Some(path) = config.file_path {
+        fs::read_to_string(path)?
+    } else {
+        let mut buffer = String::new();
+        io::stdin().read_to_string(&mut buffer)?;
+        buffer
+    };
 
     let results = if config.ignore_case {
         search_case_insensitive(&config.query, &contents)
@@ -39,7 +42,7 @@ fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
 pub struct Config {
     pub query: String,
-    pub file_path: String,
+    pub file_path: Option<String>,
     pub ignore_case: bool,
 }
 
@@ -52,10 +55,7 @@ impl Config {
             None => return Err("Didn't get a query string"),
         };
 
-        let file_path = match args.next() {
-            Some(arg) => arg,
-            None => return Err("Didn't get a file path"),
-        };
+        let file_path = args.next();
 
         let ignore_case = env::var("IGNORE_CASE").is_ok();
 
