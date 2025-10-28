@@ -8,8 +8,6 @@ pub struct ThreadPool {
     sender: mpsc::Sender<Job>,
 }
 
-type Job = Box<dyn FnOnce() + Send + 'static>;
-
 impl ThreadPool {
     pub fn new(size: usize) -> ThreadPool {
         assert!(size > 0);
@@ -35,6 +33,18 @@ impl ThreadPool {
         self.sender.send(job).unwrap();
     }
 }
+
+impl Drop for ThreadPool {
+    fn drop(&mut self) {
+        for worker in self.workers.drain(..) {
+            println!("Shutting down worker {}", worker.id);
+
+            worker.thread.join().unwrap();
+        }
+    }
+}
+
+type Job = Box<dyn FnOnce() + Send + 'static>;
 
 struct Worker {
     id: usize,
